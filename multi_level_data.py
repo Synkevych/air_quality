@@ -3,8 +3,7 @@
 import cdsapi
 from datetime import datetime, timedelta
 
-day = timedelta(1)
-today = (datetime.now() - day).strftime("%Y-%m-%d/%Y-%m-%d")
+today_date = datetime.now().strftime("%Y-%m-%d/%Y-%m-%d")
 
 file_name = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
 
@@ -12,12 +11,12 @@ c = cdsapi.Client()
 
 c.retrieve(
     'cams-global-atmospheric-composition-forecasts',
-    {
+    {   
         'variable': [
             'carbon_monoxide', 'formaldehyde', 'methane',
             'nitrogen_dioxide', 'ozone', 'sulphur_dioxide',
-        ],
-        'date': today,
+        ],  
+        'date': today_date,
         'time': '00:00',
         'leadtime_hour': [
             '0', '102', '105',
@@ -34,11 +33,13 @@ c.retrieve(
             '81', '84', '87',
             '9', '90', '93',
             '96', '99',
-        ],
+        ],  
         'type': 'forecast',
         'format': 'netcdf_zip',
         'model_level': '137',
-    },
+    },  
     f"multi_level_{file_name}.netcdf_zip")
 
-
+file_object = open('download_log.txt', 'a')
+file_object.write('New download at ' + today_date+'\n')
+file_object.close()
