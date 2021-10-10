@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-import cdsapi, os, time, sys
+import cdsapi, os, time
 from datetime import datetime, timedelta
 
-today_date = datetime.now().strftime("%Y-%m-%d/%Y-%m-%d")
+now = datetime.now()
+today_date = now.strftime("%Y-%m-%d/%Y-%m-%d")
 
-file_name = datetime.now().replace(hour=0, minute=0).strftime("%Y_%m_%d-%H")
+file_name = now.replace(hour=0, minute=0).strftime("%Y_%m_%d-%H")
 
 c = cdsapi.Client()
 
@@ -51,10 +52,8 @@ file_object.close()
 
 filesPath = r"/home/roman/Documents/IMMSP/air_quality/test_removing"
 
-now = time.time()
-
 for f in os.listdir(filesPath):
   f = os.path.join(filesPath, f)
-  if os.stat(f).st_mtime < now - 14 * 86400:
+  if  datetime.fromtimestamp(os.stat(f).st_atime) < now - timedelta(days=14):
     if os.path.isfile(f):
       os.remove(os.path.join(filesPath, f))
