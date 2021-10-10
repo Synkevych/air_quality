@@ -20,5 +20,5 @@ crontab -l	#(list user's crontab)
 crontab -e	#(edit user's crontab)
 
 
-0 8 * * * /home/ubuntu/multi_level_data.py
+0 8 * * * /home/ubuntu/multi_level_data.sh >> /path/to/log.file 2>&1
 ```

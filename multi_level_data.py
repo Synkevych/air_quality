@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-import cdsapi
+import cdsapi, os, time, sys
 from datetime import datetime, timedelta
 
 today_date = datetime.now().strftime("%Y-%m-%d/%Y-%m-%d")
 
-file_name = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
+file_name = datetime.now().replace(hour=0, minute=0).strftime("%Y_%m_%d-%H")
 
 c = cdsapi.Client()
 
@@ -40,6 +40,21 @@ c.retrieve(
     },  
     f"multi_level_{file_name}.netcdf_zip")
 
+# Log a new download
+
 file_object = open('download_log.txt', 'a')
 file_object.write('New download at ' + today_date+'\n')
 file_object.close()
+
+
+# Remove files that old than 14 days 
+
+filesPath = r"/home/roman/Documents/IMMSP/air_quality/test_removing"
+
+now = time.time()
+
+for f in os.listdir(filesPath):
+  f = os.path.join(filesPath, f)
+  if os.stat(f).st_mtime < now - 14 * 86400:
+    if os.path.isfile(f):
+      os.remove(os.path.join(filesPath, f))
