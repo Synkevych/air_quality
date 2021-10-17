@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 
-import cdsapi, os, time
+import cdsapi, os
 from datetime import datetime, timedelta
 
-now = datetime.now()
-today_date = now.strftime("%Y-%m-%d/%Y-%m-%d")
-
+period = now.strftime("%Y-%m-%d/%Y-%m-%d")
 file_name = now.replace(hour=0, minute=0).strftime("%Y_%m_%d-%H")
-
 c = cdsapi.Client()
 
 c.retrieve(
@@ -17,7 +14,7 @@ c.retrieve(
             'carbon_monoxide', 'formaldehyde', 'methane',
             'nitrogen_dioxide', 'ozone', 'sulphur_dioxide',
         ],  
-        'date': today_date,
+        'date': period,
         'time': '00:00',
         'leadtime_hour': [
             '0', '102', '105',
@@ -42,6 +39,7 @@ c.retrieve(
     f"multi_level_{file_name}.netcdf_zip")
 
 # Log a new download
+datetime_now = datetime.now()
 
 file_object = open('download_log.txt', 'a')
 file_object.write('New download at ' + today_date+'\n')
@@ -50,10 +48,10 @@ file_object.close()
 
 # Remove files that old than 14 days 
 
-filesPath = r"/home/roman/Documents/IMMSP/air_quality/test_removing"
+filesPath = r"/path/to/folder"
 
 for f in os.listdir(filesPath):
   f = os.path.join(filesPath, f)
-  if  datetime.fromtimestamp(os.stat(f).st_atime) < now - timedelta(days=14):
+  if  datetime.fromtimestamp(os.stat(f).st_atime) < datetime_now - timedelta(days=14):
     if os.path.isfile(f):
       os.remove(os.path.join(filesPath, f))
