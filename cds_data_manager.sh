@@ -3,8 +3,8 @@
 import cdsapi, os
 from datetime import datetime, timedelta
 
-period = now.strftime("%Y-%m-%d/%Y-%m-%d")
-file_name = now.replace(hour=0, minute=0).strftime("%Y_%m_%d-%H")
+period = datetime.now.strftime("%Y-%m-%d/%Y-%m-%d")
+file_name = datetime.now.replace(hour=0, minute=0).strftime("%Y_%m_%d-%H")
 c = cdsapi.Client()
 
 c.retrieve(
