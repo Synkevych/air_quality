@@ -39,10 +39,8 @@ c.retrieve(
     f"multi_level_{file_name}.netcdf_zip")
 
 # Log a new download
-datetime_now = datetime.now()
-
 file_object = open('download_log.txt', 'a')
-file_object.write('New download at ' + today_date+'\n')
+file_object.write('New download at ' + datetime.now() + '\n')
 file_object.close()
 
 
@@ -52,6 +50,6 @@ filesPath = r"/path/to/folder"
 
 for f in os.listdir(filesPath):
   f = os.path.join(filesPath, f)
-  if  datetime.fromtimestamp(os.stat(f).st_atime) < datetime_now - timedelta(days=14):
+  if  datetime.fromtimestamp(os.stat(f).st_atime) < datetime.now() - timedelta(days=14):
     if os.path.isfile(f):
       os.remove(os.path.join(filesPath, f))
