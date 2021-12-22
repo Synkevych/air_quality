@@ -49,11 +49,10 @@ file_object.write('New download at ' + datetime.now().strftime("%Y.%m.%d %H:%M")
 file_object.close()
 
 # Remove files that old than 14 days
-
 filesPath = r"/path/to/folder"
 
 for f in os.listdir(filesPath):
   f = os.path.join(filesPath, f)
-  if  datetime.fromtimestamp(os.stat(f).st_atime) < datetime_now - timedelta(days=14):
+  if  datetime.fromtimestamp(os.stat(f).st_atime) < datetime.now() - timedelta(days=14):
     if os.path.isfile(f):
       os.remove(os.path.join(filesPath, f))
