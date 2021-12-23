@@ -1,28 +1,41 @@
-#!/usr/bin/env python3
-
 import subprocess, cdsapi, os
 from datetime import datetime, timedelta
 
+path = os.getcwd() + "/data/"
+
+isExist = os.path.exists(path)
+
+if not isExist:
+  os.makedirs(path)
+  print("The new directory \"data\" is created!")
+
+def get_downloaded_time(date):
+    delay = 3 # in hours from cds
+    if (date.hour - delay) >= 12:
+        return date.replace(hour=12).strftime("%H")
+    else:
+        return date.replace(hour=0).strftime("%H")
+
 period = datetime.now().strftime("%Y-%m-%d/%Y-%m-%d")
-formatted_date = datetime.now().replace(hour=0, minute=0).strftime("%Y_%m_%d-%H")
+downloaded_time = get_downloaded_time(datetime.utcnow())
+
+formatted_date = datetime.now().replace(hour=int(downloaded_time), minute=0).strftime("%Y.%m.%d-%H:%M")
+file_name = "multi_level_" + formatted_date + ".netcdf_zip"
 
 c = cdsapi.Client()
 
 c.retrieve(
     'cams-global-atmospheric-composition-forecasts',
     {
-        'date': '2021-12-17/2021-12-17',
+        'date': period,
         'type': 'forecast',
         'format': 'grib',
         'variable': [
             'ammonium_aerosol_mass_mixing_ratio', 'formaldehyde',
             'nitrogen_dioxide', 'nitric_acid', 'nitrogen_monoxide',
             'ozone', 'sulphur_dioxide',
-            #'dust_aerosol_0.03-0.55um_mixing_ratio', 'dust_aerosol_0.55-0.9um_mixing_ratio', 'dust_aerosol_0.9-20um_mixing_ratio', 
         ],
-        'time': [
-            '00:00', '12:00',
-        ],
+        'time': downloaded_time + ":00",
         'leadtime_hour': [
             '0', '102', '105',
             '108', '111', '114',
@@ -41,9 +54,9 @@ c.retrieve(
         ],
         'model_level': '137',
     },
-    f"multi_level_{formatted_date}.netcdf_zip")
+    path + file_name)
 
-print("file single_level_"+formatted_date+".netcdf_zip successfully saved")
+print("file " + file_name + " successfully saved.")
 
 file_object = open('download_log.txt', 'a')
 file_object.write('New download at ' + datetime.now().strftime("%d.%m.%Y-%H:%M") + '\n')
