@@ -4,10 +4,12 @@ import cdsapi, os
 from datetime import datetime, timedelta
 
 # change folder for downloaded file, cron use by defaulr $PATH
-os.chdir('/home/ik/Roman/air_quality/data')
+path = os.getcwd() + "/data/"
 
 period = datetime.now().strftime("%Y-%m-%d/%Y-%m-%d")
-file_name = datetime.now().replace(hour=0, minute=0).strftime("%Y_%m_%d-%H_%M")
+
+formatted_date = datetime.now().replace(hour=int(downloaded_time), minute=0).strftime("%Y.%m.%d-%H:%M")
+file_name = "multi_level_" + formatted_date + ".netcdf_zip"
 
 c = cdsapi.Client()
 
@@ -40,7 +42,7 @@ c.retrieve(
         'format': 'netcdf_zip',
         'model_level': '137',
     },
-    f"multi_level_{file_name}.netcdf_zip")
+    file_name)
 
 # log this event to file
 
