@@ -81,20 +81,16 @@ def download_new_file(file_name, datetime):
    print("File " + file_name + " successfully saved")
    log_downloads(file_name)
 
+date_time = datetime.utcnow()
 for i in range(2):
-   date_time = datetime.utcnow() - timedelta(hours=12)
    formatted_date = date_time.replace(hour=int(get_downloaded_time(date_time))).strftime("%Y.%m.%d-%H:00")
    file_name = "single_level_" + formatted_date + ".netcdf_zip"
 
-   prev_file_exist = os.path.exists(path_to_folder + file_name)
+   file_exist = os.path.exists(path_to_folder + file_name)
 
-   if prev_file_exist:
-       print("previous file " + file_name + " exist, try to download a new file")
-       new_date_time = datetime.utcnow()
-
-       formatted_date = new_date_time.replace(hour=int(get_downloaded_time(new_date_time))).strftime("%Y.%m.%d-%H:00")
-       new_file_name = "single_level_" + formatted_date + ".netcdf_zip"
-       download_new_file(new_file_name, new_date_time)
+   if file_exist:
+       print("file " + file_name + " exist, try to download an old file")
+       date_time = datetime.utcnow() - timedelta(hours=12) # try to download previous file
    else:
-       print("previous file not exist, the download starts")
+       print("Strating downloads " + file_name)
        download_new_file(file_name, date_time)
