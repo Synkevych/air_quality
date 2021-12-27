@@ -12,20 +12,8 @@ if not is_folder_exist:
    print("The new directory created!")
 else:
    # Remove old files
+   print("Starting removing an old files")
    subprocess.call("./remove_old_data_files.py", shell=True)
-
-# downloaded time in hours with delay
-def get_downloaded_time(date):
-    delay = 3
-    if (date.hour - delay) >= 12:
-        return date.replace(hour=12).strftime("%H")
-    else:
-        return date.replace(hour=0).strftime("%H")
-
-def log_downloads(file_name):
-   file_object = open('download_log.txt', 'a')
-   file_object.write(datetime.now().strftime("%d.%m.%Y-%H:%M:%S") + ": File " + file_name + " downloaded.\n")
-   file_object.close()
 
 # Load single files
 subprocess.call("./single_level_data_manager.py", shell=True)

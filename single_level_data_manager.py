@@ -82,7 +82,7 @@ def download_new_file(file_name, datetime):
    log_downloads(file_name)
 
 date_time = datetime.utcnow()
-for i in range(2):
+for i in range(3):
    formatted_date = date_time.replace(hour=int(get_downloaded_time(date_time))).strftime("%Y.%m.%d-%H:00")
    file_name = "single_level_" + formatted_date + ".netcdf_zip"
 
@@ -90,7 +90,8 @@ for i in range(2):
 
    if file_exist:
        print("file " + file_name + " exist, try to download an old file")
-       date_time = datetime.utcnow() - timedelta(hours=12) # try to download previous file
+       date_time = date_time - timedelta(hours=12) # try to download previous file
    else:
        print("Strating downloads " + file_name)
        download_new_file(file_name, date_time)
+       date_time = date_time - timedelta(hours=12) # for downloads previous file

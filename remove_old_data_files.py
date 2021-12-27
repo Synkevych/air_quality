@@ -1,9 +1,11 @@
+#!/usr/bin/env python3
+
 import os
 from datetime import datetime, timedelta
 
 days_interval=14
-files_path = r"/home/ik/Roman/air_quality/data"
-os.chdir('/home/ik/Roman/air_quality/data')
+files_path = os.getcwd() + "/data/"
+os.chdir(files_path)
 
 for f in os.listdir(files_path):
     f = os.path.join(files_path, f)

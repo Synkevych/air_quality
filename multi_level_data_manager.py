@@ -66,7 +66,8 @@ for i in range(3):
 
    if file_exist:
        print("file " + file_name + " exist, try to download an old file")
-       date_time = datetime.utcnow() - timedelta(hours=12) # try to download previous file
+       date_time = date_time - timedelta(hours=12) # try to download previous file
    else:
        print("Strating downloads " + file_name)
        download_new_file(file_name, date_time)
+       date_time = date_time - timedelta(hours=12) # for downloads previous file
