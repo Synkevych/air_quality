@@ -1,9 +1,11 @@
 # Air Quality
 
+This script helps to download latest(today and yesterday) datasets from [Atmosphere Data Store](https://ads.atmosphere.copernicus.eu/cdsapp#!/dataset/cams-global-atmospheric-composition-forecasts?tab=form)  
+
 1. Make script executable
 
 ```sh
-chmod +x multi_level_data.py
+chmod +x main.py
 ```
 
 2. Create `$HOME/.cdsapirc` and paste there your API Key:
@@ -20,5 +22,5 @@ crontab -l	#(list user's crontab)
 crontab -e	#(edit user's crontab)
 
 
-0 8 * * * /home/ubuntu/multi_level_data.sh >> /path/to/log.file 2>&1
+0 8 * * * /home/ubuntu/main.sh >> /path/to/log.file 2>&1
 ```
