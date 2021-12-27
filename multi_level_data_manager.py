@@ -29,8 +29,8 @@ def download_new_file(file_name, datetime):
            'type': 'forecast',
            'format': 'grib',
            'variable': [
-            #    'ammonium_aerosol_mass_mixing_ratio', 'formaldehyde',
-            #    'nitrogen_dioxide', 'nitric_acid', 'nitrogen_monoxide',
+               'ammonium_aerosol_mass_mixing_ratio', 'formaldehyde',
+               'nitrogen_dioxide', 'nitric_acid', 'nitrogen_monoxide',
                'ozone', 'sulphur_dioxide',
            ],
            'time': get_downloaded_time(datetime) + ":00",
