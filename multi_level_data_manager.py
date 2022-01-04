@@ -3,18 +3,19 @@
 import subprocess, cdsapi, os
 from datetime import datetime, timedelta
 
-path_to_folder = os.getcwd() + "/data/"
+path_to_folder = "/home/user_name/air_quality/data/"
+delay = 6
+date_time = datetime.utcnow() - timedelta(hours=delay)
 
 # downloaded time in hours with delay
 def get_downloaded_time(date):
-    delay = 3
-    if (date.hour - delay) >= 12:
+    if (date.hour) >= 12:
         return date.replace(hour=12).strftime("%H")
     else:
         return date.replace(hour=0).strftime("%H")
 
 def log_downloads(file_name):
-   file_object = open('download_log.txt', 'a')
+   file_object = open(path_to_folder + 'downloads.log', 'a')
    file_object.write(datetime.now().strftime("%d.%m.%Y-%H:%M:%S") + ": File " + file_name + " downloaded.\n")
    file_object.close()
 
@@ -57,8 +58,7 @@ def download_new_file(file_name, datetime):
    print("File " + file_name + " successfully saved.")
    log_downloads(file_name)
 
-date_time = datetime.utcnow()
-for i in range(3):
+for i in range(2):
    formatted_date = date_time.replace(hour=int(get_downloaded_time(date_time))).strftime("%Y.%m.%d-%H:00")
    file_name = "multi_level_" + formatted_date + ".netcdf_zip"
 
@@ -66,8 +66,8 @@ for i in range(3):
 
    if file_exist:
        print("file " + file_name + " exist, try to download an old file")
-       date_time = date_time - timedelta(hours=12) # try to download previous file
+       date_time = date_time - timedelta(hours=12) # date for download previous file
    else:
        print("Strating downloads " + file_name)
        download_new_file(file_name, date_time)
-       date_time = date_time - timedelta(hours=12) # for downloads previous file
+       date_time = date_time - timedelta(hours=12)
