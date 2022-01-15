@@ -4,7 +4,9 @@ import subprocess, os
 from datetime import datetime, timedelta
 
 # create folder for data if not exist
-path = "/home/user_name/air_quality"
+path=$(pwd)
+export AIR_QUALITY_DIR=$(pwd)
+
 is_folder_exist = os.path.exists(path + "/data/")
 
 if not is_folder_exist:

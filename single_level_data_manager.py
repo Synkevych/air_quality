@@ -3,7 +3,7 @@
 import cdsapi, os
 from datetime import datetime, timedelta
 
-path_to_folder = "/home/user_name/air_quality/data/"
+path_to_folder = os.environ['AIR_QUALITY_DIR']
 delay = 6
 date_time = datetime.utcnow() - timedelta(hours=delay)
 
