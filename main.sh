@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
-import subprocess, os
+import subprocess, os, constants
 from datetime import datetime, timedelta
 
 # create folder for data if not exist
-path=$(pwd)
-export AIR_QUALITY_DIR=$(pwd)
+path = constants.AIR_QUALITY_DIR
 
 is_folder_exist = os.path.exists(path + "/data/")
 
