@@ -52,6 +52,7 @@ def download_new_file(file_name, datetime):
                '96', '99',
            ],
            'model_level': '137',
+           'format': 'netcdf_zip',
        },
        path_to_folder + file_name)
 
