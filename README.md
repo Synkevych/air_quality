@@ -9,7 +9,8 @@ This script helps to download latest(today and yesterday) datasets from [Atmosph
 The setups steps expect following tools installed on the system.
 
 - git
-- Python
+- Python 2.7 / 3
+- pip / pip3
 - [cdsapi](https://cds.climate.copernicus.eu/api-how-to)
 
 #### 1. Install _cdsapi_ library
