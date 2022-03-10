@@ -12,5 +12,4 @@ for f in os.listdir(path_to_folder):
     if  datetime.fromtimestamp(os.stat(f).st_atime) < datetime.now() - timedelta(days=days_interval):
       if os.path.isfile(f):
         os.remove(os.path.join(path_to_folder, f))
-
-print("files that older that " + str(days_interval) + " days removed")
+      print("files that older that " + str(days_interval) + " days removed")

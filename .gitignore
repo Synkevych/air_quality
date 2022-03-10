@@ -141,5 +141,4 @@ cython_debug/
 *.netcdf_zip
 *.grib
 
-/data
 download_log.txt

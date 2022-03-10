@@ -9,14 +9,8 @@ path = constants.AIR_QUALITY_DIR
 if path == "/path/to/air_quality":
    sys.exit("Please change the default path in file constants.py to real")
 
-is_folder_exist = os.path.exists(path + "/data/")
-
-if not is_folder_exist:
-   os.makedirs(path + "/data/")
-   print("The new data directory created!")
-else:
-   # Remove old files
-   subprocess.call(path + "/remove_old_data_files.py", shell=True)
+# Remove old files
+subprocess.call(path + "/remove_old_data_files.py", shell=True)
 
 # Load single files
 subprocess.call(path + "/single_level_data_manager.py", shell=True)
