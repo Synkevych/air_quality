@@ -66,7 +66,7 @@ for i in range(2):
    file_exist = os.path.exists(path_to_folder + file_name)
 
    if file_exist:
-       print("file " + file_name + " exist, try to download an old file")
+       print("file " + file_name + " exist, trying to download old dataset")
    else:
        print("Strating downloads " + file_name)
        download_new_file(file_name, date_time)
