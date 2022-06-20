@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import cdsapi
 import subprocess, cdsapi, os, constants
 from datetime import datetime, timedelta
 
@@ -54,7 +55,7 @@ def download_new_file(file_name, datetime):
            'model_level': '137',
            'format': 'netcdf_zip',
        },
-       path_to_folder + file_name)
+       path_to_folder + "/data/" + file_name)
 
    print("File " + file_name + " successfully saved.")
    log_downloads(file_name)
@@ -63,11 +64,11 @@ for i in range(2):
    formatted_date = date_time.replace(hour=int(get_downloaded_time(date_time))).strftime("%Y.%m.%d-%H:00")
    file_name = "multi_level_" + formatted_date + ".netcdf_zip"
 
-   file_exist = os.path.exists(path_to_folder + file_name)
+   file_exist = os.path.exists(path_to_folder + "/data/" + file_name)
 
    if file_exist:
        print("file " + file_name + " exist, trying to download old dataset")
    else:
-       print("Strating downloads " + file_name)
+       print("Starting downloads " + file_name)
        download_new_file(file_name, date_time)
    date_time = date_time - timedelta(hours=12) # date for download previous file

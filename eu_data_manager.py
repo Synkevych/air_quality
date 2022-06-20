@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
-import cdsapi, os, constants
+import cdsapi
+import subprocess
+import cdsapi
+import os
+import constants
 from datetime import datetime, timedelta
 
 path_to_folder = constants.AIR_QUALITY_DIR
@@ -8,39 +12,35 @@ delay = 6
 date_time = datetime.utcnow() - timedelta(hours=delay)
 
 # downloaded time in hours with delay
-def get_downloaded_time(date):
-    if (date.hour) >= 12:
-        return date.replace(hour=12).strftime("%H")
-    else:
-        return date.replace(hour=0).strftime("%H")
+
 
 def log_downloads(file_name):
-   file_object = open(path_to_folder + 'downloads.log', 'a')
-   file_object.write(datetime.now().strftime("%d.%m.%Y-%H:%M:%S") + ": File " + file_name + " downloaded.\n")
+   file_object = open(path_to_folder + '/data/' + 'downloads.log', 'a')
+   file_object.write(datetime.now().strftime(
+       "%d.%m.%Y-%H:%M:%S") + ": File " + file_name + " downloaded.\n")
    file_object.close()
+
 
 def download_new_file(file_name, datetime):
    period = datetime.strftime("%Y-%m-%d/%Y-%m-%d")
    c = cdsapi.Client()
 
    c.retrieve(
-       'cams-global-atmospheric-composition-forecasts',
+       'cams-europe-air-quality-forecasts',
        {
-           'variable': [
-               'particulate_matter_10um', 'particulate_matter_2.5um',
+           'model': [
+               'ensemble', 'mocage',
            ],
            'date': period,
-           'time': get_downloaded_time(datetime) + ":00",
+           'variable': [
+               'carbon_monoxide', 'nitrogen_dioxide', 'particulate_matter_10um',
+               'particulate_matter_2.5um', 'sulphur_dioxide',
+           ],
+           'level': '0',
+           'type': 'forecast',
            'leadtime_hour': [
                '0', '1', '10',
-               '100', '101', '102',
-               '103', '104', '105',
-               '106', '107', '108',
-               '109', '11', '110',
-               '111', '112', '113',
-               '114', '115', '116',
-               '117', '118', '119',
-               '12', '120', '13',
+               '11', '12', '13',
                '14', '15', '16',
                '17', '18', '19',
                '2', '20', '21',
@@ -71,26 +71,25 @@ def download_new_file(file_name, datetime):
                '88', '89', '9',
                '90', '91', '92',
                '93', '94', '95',
-               '96', '97', '98',
-               '99',
+               '96',
            ],
-           'type': 'forecast',
-           'format': 'netcdf_zip',
+           'time': '00:00',
+           'format': 'netcdf',
        },
        path_to_folder + "/data/" + file_name)
 
-   print("File " + file_name + " successfully saved")
+   print("File " + file_name + " successfully saved.")
    log_downloads(file_name)
 
-for i in range(2):
-   formatted_date = date_time.replace(hour=int(get_downloaded_time(date_time))).strftime("%Y.%m.%d-%H:00")
-   file_name = "single_level_" + formatted_date + ".netcdf_zip"
 
+for i in range(2):
+   formatted_date = date_time.strftime("%Y-%m-%d")
+   file_name = "cams-eu-air-quality-forecasts_" + formatted_date + ".nc"
    file_exist = os.path.exists(path_to_folder + "/data/" + file_name)
 
    if file_exist:
-       print("file " + file_name + " exist, try to download an old file")
+       print("file " + file_name + " exist, trying to download old dataset")
    else:
-       print("Starting downloads " + file_name)
+       print("Strating downloads " + file_name)
        download_new_file(file_name, date_time)
-   date_time = date_time - timedelta(hours=12) # date for download previous file
+   date_time = date_time - timedelta(days=1)
