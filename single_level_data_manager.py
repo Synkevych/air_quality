@@ -3,7 +3,7 @@
 import cdsapi, os, constants
 from datetime import datetime, timedelta
 
-path_to_folder = constants.AIR_QUALITY_DIR
+path_to_folder = constants.AIR_QUALITY_DIR + "\data"
 delay = 6
 date_time = datetime.utcnow() - timedelta(hours=delay)
 
@@ -77,7 +77,7 @@ def download_new_file(file_name, datetime):
            'type': 'forecast',
            'format': 'netcdf_zip',
        },
-       path_to_folder + "/data/" + file_name)
+       path_to_folder + file_name)
 
    print("File " + file_name + " successfully saved")
    log_downloads(file_name)
@@ -86,7 +86,7 @@ for i in range(2):
    formatted_date = date_time.replace(hour=int(get_downloaded_time(date_time))).strftime("%Y.%m.%d-%H:00")
    file_name = "single_level_" + formatted_date + ".netcdf_zip"
 
-   file_exist = os.path.exists(path_to_folder + "/data/" + file_name)
+   file_exist = os.path.exists(path_to_folder + file_name)
 
    if file_exist:
        print("file " + file_name + " exist, try to download an old file")

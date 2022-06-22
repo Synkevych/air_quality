@@ -15,8 +15,8 @@ subprocess.call(path + "/remove_old_data_files.py", shell=True)
 # Load single files
 subprocess.call(path + "/single_level_data_manager.py", shell=True)
 
-# Load multilevel files
+# # Load multilevel files
 subprocess.call(path + "/multi_level_data_manager.py", shell=True)
 
-# Load eu files files
+# # Load eu files files
 subprocess.call(path + "/eu_data_manager.py", shell=True)

@@ -1,18 +1,11 @@
 #!/usr/bin/env python3
 
-import cdsapi
-import subprocess
-import cdsapi
-import os
-import constants
+import cdsapi, subprocess, cdsapi, os, constants
 from datetime import datetime, timedelta
 
-path_to_folder = constants.AIR_QUALITY_DIR
+path_to_folder = constants.AIR_QUALITY_DIR + "\data"
 delay = 6
 date_time = datetime.utcnow() - timedelta(hours=delay)
-
-# downloaded time in hours with delay
-
 
 def log_downloads(file_name):
    file_object = open(path_to_folder + '/data/' + 'downloads.log', 'a')
@@ -76,7 +69,7 @@ def download_new_file(file_name, datetime):
            'time': '00:00',
            'format': 'netcdf',
        },
-       path_to_folder + "/data/" + file_name)
+       path_to_folder + file_name)
 
    print("File " + file_name + " successfully saved.")
    log_downloads(file_name)
@@ -85,10 +78,10 @@ def download_new_file(file_name, datetime):
 for i in range(2):
    formatted_date = date_time.strftime("%Y-%m-%d")
    file_name = "cams-eu-air-quality-forecasts_" + formatted_date + ".nc"
-   file_exist = os.path.exists(path_to_folder + "/data/" + file_name)
+   file_exist = os.path.exists(path_to_folder + file_name)
 
    if file_exist:
-       print("file " + file_name + " exist, trying to download old dataset")
+       print("file " + file_name + " exist, trying to download an old dataset")
    else:
        print("Strating downloads " + file_name)
        download_new_file(file_name, date_time)
