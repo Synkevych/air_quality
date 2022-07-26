@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import subprocess, sys, os, constants
-from datetime import datetime, timedelta
+import subprocess, sys, constants
 
 # create folder for data if not exist
 path = constants.AIR_QUALITY_DIR
