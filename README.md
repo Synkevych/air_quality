@@ -63,6 +63,8 @@ crontab -e	#(edit user's crontab)
 0 */6 * * * /home/ubuntu/main.sh >> /path/to/log.file 2>&1
 ```
 
+`install -r requirements.txt` install required cdsapi
+
 #### 4. Logging
 
 After start <main.sh> in main folder you should see a new file <main.log>. This file created by crontab and visualize all downloading process.
